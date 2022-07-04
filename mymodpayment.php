@@ -36,6 +36,7 @@ class MyModPayment extends PaymentModule {
     }
 
     public function hookDisplayPayment($params) {
+        $this->context->controller->addCSS($this->_path . 'views/css/mymodpayment.css', 'all');
         return $this->display(__FILE__, 'displayPayment.tpl');
     }
 
