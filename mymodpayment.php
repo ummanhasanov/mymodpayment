@@ -24,7 +24,7 @@ class MyModPayment extends PaymentModule {
 
     public function getHookController($hook_name) {
         // Include the controller file
-        require_once (dirname(__FILE__) . 'controllers/hook' . $hook_name . '.php');
+        require_once (dirname(__FILE__) . '/controllers/hook/' . $hook_name . '.php');
 
         // Build dynamically the controller name
         $controller_name = $this->name . $hook_name . 'Controller';
@@ -36,8 +36,10 @@ class MyModPayment extends PaymentModule {
     }
 
     public function hookDisplayPayment($params) {
-        $this->context->controller->addCSS($this->_path . 'views/css/mymodpayment.css', 'all');
-        return $this->display(__FILE__, 'displayPayment.tpl');
+        $controller = $this->getHookController('displayPayment');
+        return $controller->run($params);
     }
+
+   
 
 }
