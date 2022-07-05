@@ -4,7 +4,7 @@ class MyModPayment extends PaymentModule {
 
     public function __construct() {
         $this->name = 'mymodpayment';
-        $this->tab = 'payment_gateways';
+        $this->tab = 'payments_gateways';
         $this->version = '0.1';
         $this->author = 'Umman Hasanov';
         $this->bootstrap = true;
