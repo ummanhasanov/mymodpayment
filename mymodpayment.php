@@ -35,11 +35,19 @@ class MyModPayment extends PaymentModule {
         return $controller;
     }
 
+    public function getContent() {
+        $controller = $this->getHookController('getContent');
+        return $controller->run();
+    }
+
     public function hookDisplayPayment($params) {
         $controller = $this->getHookController('displayPayment');
         return $controller->run($params);
     }
 
-   
+//    public function hookDisplayPaymentReturn($params) {
+//        $controller = $this->getHookController('displayPaymentReturn');
+//        return $controller->run($params);
+//    }
 
 }
