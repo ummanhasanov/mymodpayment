@@ -33,7 +33,7 @@ class MyModPaymentValidationModuleFrontController extends ModuleFrontController 
         $extra_vars = array();
 
         // Validate Order
-        $this->module->validateOrder($cart->id, Configuration::get('PS_OS_PREPARATION'),
+        $this->module->validateOrder($cart->id, Configuration::get('PS_OS_MYMOD_PAYMENT'),
                 $total, $this->module->displayName, NULL, $extra_vars,
                 (int) $currency->id, false, $customer->secure_key);
 

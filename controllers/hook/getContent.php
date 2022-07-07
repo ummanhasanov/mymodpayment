@@ -8,7 +8,7 @@ class MyModPaymentGetContentController {
         $this->context = Context::getContext();
         $this->_path = $path;
     }
-
+        // Configuration parametres
     public function processConfiguration() {
         if (Tools::isSubmit('mymodpayment_form')) {
             Configuration::updateValue('MYMOD_CH_ORDER', Tools::getValue('MYMOD_CH_ORDER'));
@@ -21,7 +21,7 @@ class MyModPaymentGetContentController {
             $this->context->smarty->assign('confirmation', 'ok');
         }
     }
-
+        // Configuration form
     public function renderForm() {
         $inputs = array(
             array('name' => 'MYMOD_CH_ORDER', 'label' => $this->module->l('Check order'), 'type' => 'text'),
@@ -42,7 +42,7 @@ class MyModPaymentGetContentController {
                 'submit' => array('title' => $this->module->l('Save'))
             )
         );
-
+            // Configuration input fields
         $helper = new HelperForm();
         $helper->table = 'mymodpayment';
         $helper->default_form_language = (int) Configuration::get('PS_LANG_DEFAULT');
