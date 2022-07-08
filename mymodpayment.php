@@ -25,10 +25,26 @@ class MyModPayment extends PaymentModule {
         return true;
     }
 
+    public function uninstall() {
+        if (!parent::uninstall()) {
+            return false;
+        }
+        if (!$this->unInstallOrderState() || !Configuration::deleteByName('PS_OS_MYMOD_PAYMENT')) {
+            return false;
+        }
+        return true;
+    }
+
+    public function unInstallOrderState() {
+        $order_state = new OrderState(Configuration::get('PS_OS_MYMOD_PAYMENT'));
+
+        return $order_state->delete();
+    }
+
     public function installOrderState() {
         if (Configuration::get('PS_OS_MYMOD_PAYMENT') < 1) {
             $order_state = new OrderState();
-            $order_state->send_email = false;
+            $order_state->send_email = true;
             $order_state->module_name = $this->name;
             $order_state->invoice = false;
             $order_state->color = '#98c3ff';
@@ -39,18 +55,33 @@ class MyModPayment extends PaymentModule {
             $order_state->hidden = false;
             $order_state->paid = false;
             $order_state->deleted = false;
-            $order_state->name = array((int) Configuration::get('PS_LANG_DEFAULT') =>
-                pSQL($this->l('MyMod payment - Awaiting confirmation')));
+            $order_state->name = array((int) Configuration::get('PS_LANG_DEFAULT') => pSQL($this->l('MyMod payment - Awaiting confirmation')));
+            $order_state->template = array();
+            foreach (Language::getLanguages() as $l) {
+                $order_state->template[$l['id_lang']] = 'mymodpayment';
+            }
+
+            // We copy the mails templates in mail directory
+            foreach (Language::getLanguages() as $l) {
+                $module_path = dirname(__FILE__) . '/views/templates/mails/' . $l['iso_code'] . '/';
+                $application_path = dirname(__FILE__) . '/../../mails/' . $l['iso_code'] . '/';
+                if (!copy($module_path . 'mymodpayment.txt', $application_path . 'mymodpayment.txt') ||
+                        !copy($module_path . 'mymodpayment.html', $application_path . 'mymodpayment.html')) {
+                    return false;
+                }
+            }
+
             if ($order_state->add()) {
                 // We save the order ID in Configuration database
                 Configuration::updateValue('PS_OS_MYMOD_PAYMENT', $order_state->id);
+
                 // We copy the module logo in order state logo directory
                 copy(dirname(__FILE__) . '/logo.gif', dirname(__FILE__) . '/../../img/os/' . $order_state->id . '.gif');
                 copy(dirname(__FILE__) . '/logo.gif', dirname(__FILE__) . '/../../img/tmp/order_state_mini_' . $order_state->id . '.gif');
-            }
-            else{
+            } else {
                 return false;
             }
+            return true;
         }
     }
 

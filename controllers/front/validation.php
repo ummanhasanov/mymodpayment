@@ -30,7 +30,13 @@ class MyModPaymentValidationModuleFrontController extends ModuleFrontController 
         // Set datas 
         $currency = $this->context->currency;
         $total = (float) $cart->getOrderTotal(true, Cart::BOTH);
-        $extra_vars = array();
+        $extra_vars = array(
+            '{total_to_pay}' => Tools::displayPrice($total),
+            '{cheque_order}' => Configuration::get('MYMOD_CH_ORDER'),
+            '{cheque_address}' => Configuration::get('MYMOD_CH_ADDRESS'),
+            '{bankwire_details}' => Configuration::get('MYMOD_BA_DETAILS'),
+            '{bankwire_owner}' => Configuration::get('MYMOD_BA_OWNER'),
+        );
 
         // Validate Order
         $this->module->validateOrder($cart->id, Configuration::get('PS_OS_MYMOD_PAYMENT'),
