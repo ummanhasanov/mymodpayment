@@ -11,14 +11,14 @@ class MyModPaymentPaymentModuleFrontController extends ModuleFrontController {
 
         // Check if cart currency is one of enabled currencies
         if (is_array($currencies_module)) {
-            foreach ($currencies_module as $currency_module){
+            foreach ($currencies_module as $currency_module) {
                 
             }
         }
         if ($currency_order->id == $currency_module['id_currency']) {
             return true;
         }
-
+        // Return false otherwise
         return false;
     }
 

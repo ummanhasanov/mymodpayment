@@ -20,12 +20,12 @@ class MyModPaymentDisplayPaymentReturnController {
         $total_to_pay = Tools::displayPrice($params['total_to_pay'], $params['currencyObj'], false);
 
         $this->context->smarty->assign(array(
-                    'MYMOD_CH_ORDER' => Configuration::get('MYMOD_CH_ORDER'),
-                    'MYMOD_CH_ADDRESS' => Configuration::get('MYMOD_CH_ADDRESS'),
-                    'MYMOD_BA_OWNER' => Configuration::get('MYMOD_BA_OWNER'),
-                    'MYMOD_BA_DETAILS' => Configuration::get('MYMOD_BA_DETAILS'),
-                    'reference' => $reference,
-                    'total_to_pay' => $total_to_pay,
+            'MYMOD_CH_ORDER' => Configuration::get('MYMOD_CH_ORDER'),
+            'MYMOD_CH_ADDRESS' => Configuration::get('MYMOD_CH_ADDRESS'),
+            'MYMOD_BA_OWNER' => Configuration::get('MYMOD_BA_OWNER'),
+            'MYMOD_BA_DETAILS' => Configuration::get('MYMOD_BA_DETAILS'),
+            'reference' => $reference,
+            'total_to_pay' => $total_to_pay,
         ));
         return $this->module->display($this->file, 'displayPaymentReturn.tpl');
     }

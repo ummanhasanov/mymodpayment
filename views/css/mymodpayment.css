@@ -1,8 +1,8 @@
 
-p.payment_module a.mymodpayment{
+ a.mymodpayment, a.mymodpayment:after {
     background: url(../img/mymodpayment.png) 15px 15px no-repeat #fbfbfb;
 }
-p.payment_module a.mymodpayment {
+ a.mymodpayment {
     display: block;
     border: 1px solid #d6d4d4;
     -moz-border-radius: 4px;
