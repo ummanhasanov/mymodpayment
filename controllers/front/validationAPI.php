@@ -1,8 +1,10 @@
 <?php
 
-class MyModPaymentValidationAPIModuleController extends ModuleFrontController {
+class MyModPaymentValidationAPIModuleFrontController extends ModuleFrontController {
 
     public function postProcess() {
+
+
         // Check if cart is valid
         $cart = new Cart((int) Tools::getValue('id_cart'));
         if ($cart->id_customer == 0 || $cart->id_address_delivery == 0 || $cart->id_address_invoice == 0 || !$this->module->active) {
@@ -20,9 +22,9 @@ class MyModPaymentValidationAPIModuleController extends ModuleFrontController {
         $extra_vars = array('transaction_id' => Tools::getValue('transaction_id'));
 
         // Build the validation token
-        $validation_token = md5(Configuration::get('MYMOD_API_CRED_SALT')) .
+        $validation_token = md5(Configuration::get('MYMOD_API_CRED_SALT') .
                 Tools::getValue('id_cart') . $total_paid .
-                Tools::getValue('transaction_id');
+                Tools::getValue('transaction_id'));
 
         // Check validation token
         if (Tools::getValue('validation_token') != $validation_token) {
@@ -36,8 +38,7 @@ class MyModPaymentValidationAPIModuleController extends ModuleFrontController {
 
         // Redirect on order confirmation page
         $shop = new Shop(Configuration::get('PS_SHOP_DEFAULT'));
-        $return_url = Tools::getShopProtocol();
-        $shop->domain . $shop->getBaseURI();
+        $return_url = Tools::getShopProtocol() . $shop->domain . $shop->getBaseURI();
         $this->returnSuccess($return_url . 'index.php?controller=order-confirmation&id_cart='
                 . $cart->id . '&id_module=' . $this->module->id . '&id_order='
                 . $this->module->currentOrder . '&key=' . $customer->secure_key);
@@ -49,7 +50,7 @@ class MyModPaymentValidationAPIModuleController extends ModuleFrontController {
     }
 
     public function returnSuccess($result) {
-        echo json_encode(array('return_link' => $result));
+        echo json_encode(array('return_link' => $result), JSON_UNESCAPED_SLASHES);
         exit;
     }
 

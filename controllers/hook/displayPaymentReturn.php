@@ -10,9 +10,14 @@ class MyModPaymentDisplayPaymentReturnController {
     }
 
     public function run($params) {
-        if ($params['objOrder']->payment != $this->module->displayName) {
+
+
+        if ($params['objOrder']->payment != $this->module->displayName  &&  $params['objOrder']->payment != $this->module->displayName.' API') {
             return '';
         }
+
+
+
         $reference = $params['objOrder']->id;
         if (isset($params['objOrder']->reference) && !empty($params['objOrder']->reference)) {
             $reference = $params['objOrder']->reference;
