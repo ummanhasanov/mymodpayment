@@ -12,6 +12,7 @@ class MyModPayment extends PaymentModule {
         $this->displayName = $this->l('MyMod payment');
         $this->description = $this->l('A simple payment module');
     }
+    
 
     public function install() {
         if (!parent::install() ||
